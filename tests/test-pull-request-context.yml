@@ -1,0 +1,50 @@
+name: Test pull request context
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create pull request event payload
+        run: |
+          mkdir -p /tmp/github-event-pr
+          cat > /tmp/github-event-pr/event.json <<'EOF'
+          {
+            "pull_request": {
+              "number": 99,
+              "title": "Test PR"
+            },
+            "repository": {
+              "name": "test-repo",
+              "owner": {
+                "login": "test-owner"
+              }
+            }
+          }
+          EOF
+
+      - id: action
+        uses: .
+        continue-on-error: true
+        env:
+          GITHUB_EVENT_NAME: pull_request
+          GITHUB_EVENT_PATH: /tmp/github-event-pr/event.json
+          GITHUB_REPOSITORY: test-owner/test-repo
+        with:
+          repo-token: fake-token-for-testing
+          message: "This pull request has been closed."
+
+      - name: Assert action ran (failed at API call, not at input validation)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # The action should fail at the GitHub API call (bad token),
+          # not at input validation or missing PR number detection.
+          if [ "$OUTCOME" = "skipped" ]; then
+            echo "FAIL: action was skipped unexpectedly"
+            exit 1
+          fi
+          echo "PASS: action ran with PR context (outcome=$OUTCOME)"

@@ -6,9 +6,9 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 ## Versions
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v2 | [`v2`](https://github.com/chainguard-actions/aws-actions-closed-issue-message/tree/v2) | [`10aaf63`](https://github.com/aws-actions/closed-issue-message/commit/10aaf6366131b673a7c8b7742f8b3849f1d44f18) |
+| Version | Tag | Upstream commit | Hardening report |
+|---------|-----|-----------------|------------------|
+| v2 | [`v2`](https://github.com/chainguard-actions/aws-actions-closed-issue-message/tree/v2) | [`10aaf63`](https://github.com/aws-actions/closed-issue-message/commit/10aaf6366131b673a7c8b7742f8b3849f1d44f18) | [`HARDENING.md`](https://github.com/chainguard-actions/aws-actions-closed-issue-message/blob/v2/HARDENING.md) |
 
 ## Privacy
 
